@@ -1,0 +1,229 @@
+{
+  "packages": {
+    "core": {
+      "login": {
+        "in": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/LoginArgs",
+          "definitions": {
+            "LoginArgs": {
+              "properties": {},
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        },
+        "out": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/LoginResponse",
+          "definitions": {
+            "LoginResponse": {
+              "properties": {},
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "projects": {
+      "getProjects": {
+        "in": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/GetProjectsArgs",
+          "definitions": {
+            "GetProjectsArgs": {
+              "properties": {},
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        },
+        "out": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/GetProjectsResult",
+          "definitions": {
+            "GetProjectsResult": {
+              "required": [
+                "Items"
+              ],
+              "properties": {
+                "Items": {
+                  "items": {
+                    "$schema": "http://json-schema.org/draft-04/schema#",
+                    "$ref": "#/definitions/Project"
+                  },
+                  "type": "array"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            },
+            "Group": {
+              "required": [
+                "id",
+                "name"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            },
+            "Project": {
+              "required": [
+                "id",
+                "name",
+                "fullName",
+                "group",
+                "repository"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "fullName": {
+                  "type": "string"
+                },
+                "group": {
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "$ref": "#/definitions/Group"
+                },
+                "repository": {
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "$ref": "#/definitions/Repository"
+                },
+                "workspaceDirectory": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            },
+            "Repository": {
+              "required": [
+                "type",
+                "url"
+              ],
+              "properties": {
+                "type": {
+                  "enum": [
+                    "github",
+                    "gitlab",
+                    "bitbucket",
+                    "custom"
+                  ],
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        }
+      },
+      "installProject": {
+        "in": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/InstallProjectArgs",
+          "definitions": {
+            "InstallProjectArgs": {
+              "required": [
+                "projectId"
+              ],
+              "properties": {
+                "projectId": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        },
+        "out": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/InstallProjectResult",
+          "definitions": {
+            "InstallProjectResult": {
+              "required": [
+                "workspaceDirectory"
+              ],
+              "properties": {
+                "workspaceDirectory": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        }
+      },
+      "removeProject": {
+        "in": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/RemoveProjectArgs",
+          "definitions": {
+            "RemoveProjectArgs": {
+              "required": [
+                "projectId"
+              ],
+              "properties": {
+                "projectId": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        },
+        "out": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/RemoveProjectResult",
+          "definitions": {
+            "RemoveProjectResult": {
+              "properties": {},
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        }
+      }
+    }
+  },
+  "errorSchema": {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/Error",
+    "definitions": {
+      "Error": {
+        "required": [
+          "errorCode",
+          "error"
+        ],
+        "properties": {
+          "errorCode": {
+            "type": "string"
+          },
+          "error": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object"
+      }
+    }
+  }
+}

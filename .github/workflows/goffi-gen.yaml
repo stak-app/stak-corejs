@@ -1,0 +1,53 @@
+name: goffi-gen
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version of stak-core (in format MAJOR.MINOR.PATCH)'
+        required: true
+
+jobs:
+  goffi-gen:
+    runs-on: ubuntu-latest
+    env:
+      SOURCE_REPO: stak-app/stak-core
+      VERSION: ${{ github.event.inputs.version }}
+      VERSION_TAG: v${{ github.event.inputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Download goffi-spec.json
+        env:
+          GH_TOKEN: ${{ secrets.GH_ACTIONS_TOKEN }}
+        run: |
+          rm -rf goffi-gen/goffi-spec.json
+          gh release download -R ${{ env.SOURCE_REPO }} ${{ env.VERSION_TAG }} -p goffi-spec.json -D goffi-gen
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Run goffi-gen
+        run: |
+          npm install
+          npm run goffi-gen
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          branch: update-dep-stak-core
+          delete-branch: true
+          commit-message: |
+            chore: update stak-core to ${{ env.VERSION_TAG }}
+
+            Release-As: ${{ env.VERSION }}
+          committer: GitHub <noreply@github.com>
+          author: GitHub <noreply@github.com>
+          title: "chore: update stak-core to ${{ env.VERSION_TAG }}"
+          body: |
+            :star_struck: Oo-wee! New stak-core version!
+            ---
+            Source release: https://github.com/stak-app/stak-core/releases/tag/${{ env.VERSION_TAG }}
+
+            ---
+            This PR was generated automatically by GH Action.

@@ -1,0 +1,52 @@
+name: release-please
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      pull-requests: write
+    outputs:
+      version: ${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}.${{ steps.release.outputs.patch }}
+      release-created: ${{ steps.release.outputs.release_created }}
+    steps:
+      - uses: GoogleCloudPlatform/release-please-action@v2
+        id: release
+        with:
+          token: ${{ secrets.GH_ACTIONS_TOKEN }}
+          release-type: node
+          package-name: stak-core
+  
+  build-and-publish:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release-created }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    env:
+      SOURCE_REPO: stak-app/stak-core
+      VERSION: ${{ needs.release-please.outputs.version }}
+      VERSION_TAG: v${{ needs.release-please.outputs.version }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download stak-core artifacts
+        env:
+          GH_TOKEN: ${{ secrets.GH_ACTIONS_TOKEN }}
+        run: |
+          gh release download -R ${{ env.SOURCE_REPO }} ${{ env.VERSION_TAG }} -p "lib*" -D prebuilds
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: "https://npm.pkg.github.com"
+      - run: npm install
+      - run: npm run build
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
