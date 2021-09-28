@@ -6,7 +6,7 @@ export interface GetProjectsIn {
 }
 
 export interface GetProjectsOut {
-    Items: Project[];
+    items: Project[];
 }
 
 export interface Project {
@@ -36,7 +36,7 @@ export enum Type {
 }
 
 export interface InstallProjectIn {
-    projectId: string;
+    projectName: string;
 }
 
 export interface InstallProjectOut {
@@ -44,7 +44,7 @@ export interface InstallProjectOut {
 }
 
 export interface RemoveProjectIn {
-    projectId: string;
+    projectName: string;
 }
 
 export interface RemoveProjectOut {

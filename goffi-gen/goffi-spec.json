@@ -1,6 +1,38 @@
 {
+  "version": "v0.3.0",
   "packages": {
     "core": {
+      "deploy": {
+        "in": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/DeployArgs",
+          "definitions": {
+            "DeployArgs": {
+              "required": [
+                "workingDirectory"
+              ],
+              "properties": {
+                "workingDirectory": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        },
+        "out": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/DeployResult",
+          "definitions": {
+            "DeployResult": {
+              "properties": {},
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        }
+      },
       "login": {
         "in": {
           "$schema": "http://json-schema.org/draft-04/schema#",
@@ -18,6 +50,37 @@
           "$ref": "#/definitions/LoginResponse",
           "definitions": {
             "LoginResponse": {
+              "properties": {},
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        }
+      },
+      "run": {
+        "in": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/RunArgs",
+          "definitions": {
+            "RunArgs": {
+              "required": [
+                "workingDirectory"
+              ],
+              "properties": {
+                "workingDirectory": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        },
+        "out": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/RunResult",
+          "definitions": {
+            "RunResult": {
               "properties": {},
               "additionalProperties": false,
               "type": "object"
@@ -45,10 +108,10 @@
           "definitions": {
             "GetProjectsResult": {
               "required": [
-                "Items"
+                "items"
               ],
               "properties": {
-                "Items": {
+                "items": {
                   "items": {
                     "$schema": "http://json-schema.org/draft-04/schema#",
                     "$ref": "#/definitions/Project"
@@ -140,10 +203,10 @@
           "definitions": {
             "InstallProjectArgs": {
               "required": [
-                "projectId"
+                "projectName"
               ],
               "properties": {
-                "projectId": {
+                "projectName": {
                   "type": "string"
                 }
               },
@@ -178,10 +241,10 @@
           "definitions": {
             "RemoveProjectArgs": {
               "required": [
-                "projectId"
+                "projectName"
               ],
               "properties": {
-                "projectId": {
+                "projectName": {
                   "type": "string"
                 }
               },
