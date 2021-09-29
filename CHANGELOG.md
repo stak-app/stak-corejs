@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://www.github.com/stak-app/stak-corejs/compare/v0.3.0...v0.4.0) (2021-09-29)
+
+
+### Miscellaneous Chores
+
+* update stak-core to v0.4.0 ([#5](https://www.github.com/stak-app/stak-corejs/issues/5)) ([3275f99](https://www.github.com/stak-app/stak-corejs/commit/3275f99d4ac59653ba65bd9df0239efa5b190e23))
+
 ## [0.3.0](https://www.github.com/stak-app/stak-corejs/compare/v0.2.1...v0.3.0) (2021-09-28)
 
 
