@@ -1,5 +1,5 @@
 {
-  "version": "v0.3.0",
+  "version": "0.4.0",
   "packages": {
     "core": {
       "deploy": {
@@ -90,6 +90,213 @@
       }
     },
     "projects": {
+      "cloneRepository": {
+        "in": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/CloneProjectArgs",
+          "definitions": {
+            "CloneProjectArgs": {
+              "required": [
+                "projectName"
+              ],
+              "properties": {
+                "projectName": {
+                  "type": "string"
+                },
+                "sshPassphrase": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        },
+        "out": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/CloneProjectResult",
+          "definitions": {
+            "CloneProjectResult": {
+              "required": [
+                "workspaceDirectory"
+              ],
+              "properties": {
+                "workspaceDirectory": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        }
+      },
+      "fetchDevEnvironment": {
+        "in": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/FetchEnvironmentArgs",
+          "definitions": {
+            "FetchEnvironmentArgs": {
+              "required": [
+                "workspaceDirectory"
+              ],
+              "properties": {
+                "workspaceDirectory": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        },
+        "out": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/FetchEnvironmentResult",
+          "definitions": {
+            "FetchEnvironmentResult": {
+              "properties": {},
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        }
+      },
+      "getProject": {
+        "in": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/GetProjectArgs",
+          "definitions": {
+            "GetProjectArgs": {
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        },
+        "out": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/GetProjectResult",
+          "definitions": {
+            "GetProjectResult": {
+              "required": [
+                "item"
+              ],
+              "properties": {
+                "item": {
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "$ref": "#/definitions/Project"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            },
+            "Group": {
+              "required": [
+                "id",
+                "name"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            },
+            "Project": {
+              "required": [
+                "id",
+                "name",
+                "displayName",
+                "type",
+                "fullName",
+                "group",
+                "repository",
+                "availableCommands",
+                "createdAt",
+                "updatedAt"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "displayName": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "fullName": {
+                  "type": "string"
+                },
+                "group": {
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "$ref": "#/definitions/Group"
+                },
+                "repository": {
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "$ref": "#/definitions/Repository"
+                },
+                "workspaceDirectory": {
+                  "type": "string"
+                },
+                "availableCommands": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            },
+            "Repository": {
+              "required": [
+                "type",
+                "url"
+              ],
+              "properties": {
+                "type": {
+                  "enum": [
+                    "github",
+                    "gitlab",
+                    "bitbucket",
+                    "custom"
+                  ],
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        }
+      },
       "getProjects": {
         "in": {
           "$schema": "http://json-schema.org/draft-04/schema#",
@@ -142,15 +349,26 @@
               "required": [
                 "id",
                 "name",
+                "displayName",
+                "type",
                 "fullName",
                 "group",
-                "repository"
+                "repository",
+                "availableCommands",
+                "createdAt",
+                "updatedAt"
               ],
               "properties": {
                 "id": {
                   "type": "string"
                 },
                 "name": {
+                  "type": "string"
+                },
+                "displayName": {
+                  "type": "string"
+                },
+                "type": {
                   "type": "string"
                 },
                 "fullName": {
@@ -166,6 +384,20 @@
                 },
                 "workspaceDirectory": {
                   "type": "string"
+                },
+                "availableCommands": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time"
                 }
               },
               "additionalProperties": false,
@@ -196,17 +428,17 @@
           }
         }
       },
-      "installProject": {
+      "initDevEnvironment": {
         "in": {
           "$schema": "http://json-schema.org/draft-04/schema#",
-          "$ref": "#/definitions/InstallProjectArgs",
+          "$ref": "#/definitions/InitEnvironmentArgs",
           "definitions": {
-            "InstallProjectArgs": {
+            "InitEnvironmentArgs": {
               "required": [
-                "projectName"
+                "workspaceDirectory"
               ],
               "properties": {
-                "projectName": {
+                "workspaceDirectory": {
                   "type": "string"
                 }
               },
@@ -217,17 +449,10 @@
         },
         "out": {
           "$schema": "http://json-schema.org/draft-04/schema#",
-          "$ref": "#/definitions/InstallProjectResult",
+          "$ref": "#/definitions/InitEnvironmentResult",
           "definitions": {
-            "InstallProjectResult": {
-              "required": [
-                "workspaceDirectory"
-              ],
-              "properties": {
-                "workspaceDirectory": {
-                  "type": "string"
-                }
-              },
+            "InitEnvironmentResult": {
+              "properties": {},
               "additionalProperties": false,
               "type": "object"
             }
@@ -273,7 +498,6 @@
     "definitions": {
       "Error": {
         "required": [
-          "errorCode",
           "error"
         ],
         "properties": {
