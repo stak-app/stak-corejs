@@ -26,7 +26,7 @@ const leadingComments = [
 async function generateErrorInterface(ffiSpec: FFISpec, outputPath: string) {
   const schemaInput = new JSONSchemaInput(new FetchingJSONSchemaStore());
   await schemaInput.addSource({
-    name: `Error`,
+    name: `StakError`,
     schema: JSON.stringify(ffiSpec.errorSchema),
   });
   const inputData = new InputData();
@@ -36,7 +36,6 @@ async function generateErrorInterface(ffiSpec: FFISpec, outputPath: string) {
     leadingComments: leadingComments,
     lang: "typescript",
     rendererOptions: {
-      "just-types": "true",
       "explicit-unions": "true",
     },
   });
@@ -64,6 +63,7 @@ async function main() {
 
     // add import helper function
     bottomExtraLines.push(`import { callNativeFunction } from "../lib";`);
+    bottomExtraLines.push(`import { Convert as ErrorConvert } from "../error";`);
     bottomExtraLines.push(``);
 
     // generate code for each declared function within package
@@ -85,7 +85,15 @@ async function main() {
       bottomExtraLines.push(
         `function ${funcName}(args: ${funcNameFormatted}In): Promise<${funcNameFormatted}Out> {`
       );
-      bottomExtraLines.push(`  return callNativeFunction<${funcNameFormatted}Out>("${packageName}", "${funcName}", args);`);
+      bottomExtraLines.push(`  return new Promise((resolve, reject) => {`);
+      bottomExtraLines.push(`    const argsJsonStr = Convert.${funcName}InToJson(args);`);
+      bottomExtraLines.push(`    const resultJsonStr = callNativeFunction("${packageName}", "${funcName}", argsJsonStr);`);
+      bottomExtraLines.push(`    try {`);
+      bottomExtraLines.push(`      resolve(Convert.to${funcNameFormatted}Out(resultJsonStr));`);
+      bottomExtraLines.push(`    } catch {`);
+      bottomExtraLines.push(`      reject(ErrorConvert.toStakError(resultJsonStr));`);
+      bottomExtraLines.push(`    }`);
+      bottomExtraLines.push(`  });`);
       bottomExtraLines.push(`}`);
       bottomExtraLines.push(``);
     }
@@ -106,7 +114,6 @@ async function main() {
       leadingComments: leadingComments,
       lang: "typescript",
       rendererOptions: {
-        "just-types": "true",
         "explicit-unions": "true",
       },
     });
