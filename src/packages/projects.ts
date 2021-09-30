@@ -28,6 +28,7 @@ export interface GetProjectOut {
 
 export interface GetProjectOutItem {
     availableCommands:   string[];
+    corrupted:           boolean;
     createdAt:           Date;
     displayName:         string;
     fullName:            string;
@@ -66,6 +67,7 @@ export interface GetProjectsOut {
 
 export interface ItemElement {
     availableCommands:   string[];
+    corrupted:           boolean;
     createdAt:           Date;
     displayName:         string;
     fullName:            string;
@@ -355,6 +357,7 @@ const typeMap: any = {
     ], false),
     "GetProjectOutItem": o([
         { json: "availableCommands", js: "availableCommands", typ: a("") },
+        { json: "corrupted", js: "corrupted", typ: true },
         { json: "createdAt", js: "createdAt", typ: Date },
         { json: "displayName", js: "displayName", typ: "" },
         { json: "fullName", js: "fullName", typ: "" },
@@ -381,6 +384,7 @@ const typeMap: any = {
     ], false),
     "ItemElement": o([
         { json: "availableCommands", js: "availableCommands", typ: a("") },
+        { json: "corrupted", js: "corrupted", typ: true },
         { json: "createdAt", js: "createdAt", typ: Date },
         { json: "displayName", js: "displayName", typ: "" },
         { json: "fullName", js: "fullName", typ: "" },
