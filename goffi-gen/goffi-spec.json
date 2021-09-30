@@ -1,5 +1,5 @@
 {
-  "version": "0.4.1",
+  "version": "0.5.0",
   "packages": {
     "core": {
       "deploy": {
@@ -82,6 +82,47 @@
           "definitions": {
             "RunResult": {
               "properties": {},
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "modules": {
+      "update": {
+        "in": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/ModulesUpdateArgs",
+          "definitions": {
+            "ModulesUpdateArgs": {
+              "properties": {
+                "sshPassphrase": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        },
+        "out": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/ModulesUpdateResult",
+          "definitions": {
+            "ModulesUpdateResult": {
+              "required": [
+                "commitHash",
+                "didUpdate"
+              ],
+              "properties": {
+                "commitHash": {
+                  "type": "string"
+                },
+                "didUpdate": {
+                  "type": "boolean"
+                }
+              },
               "additionalProperties": false,
               "type": "object"
             }
@@ -225,7 +266,8 @@
                 "repository",
                 "availableCommands",
                 "createdAt",
-                "updatedAt"
+                "updatedAt",
+                "corrupted"
               ],
               "properties": {
                 "id": {
@@ -267,6 +309,9 @@
                 "updatedAt": {
                   "type": "string",
                   "format": "date-time"
+                },
+                "corrupted": {
+                  "type": "boolean"
                 }
               },
               "additionalProperties": false,
@@ -356,7 +401,8 @@
                 "repository",
                 "availableCommands",
                 "createdAt",
-                "updatedAt"
+                "updatedAt",
+                "corrupted"
               ],
               "properties": {
                 "id": {
@@ -398,6 +444,9 @@
                 "updatedAt": {
                   "type": "string",
                   "format": "date-time"
+                },
+                "corrupted": {
+                  "type": "boolean"
                 }
               },
               "additionalProperties": false,

@@ -3,4 +3,5 @@
 // 
 
 export { core } from "./packages/core";
+export { modules } from "./packages/modules";
 export { projects } from "./packages/projects";
