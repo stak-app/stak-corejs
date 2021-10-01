@@ -46,17 +46,28 @@ async function generateErrorInterface(ffiSpec: FFISpec, outputPath: string) {
 }
 
 async function main() {
+  console.log(`goffi-gen`);
+  console.log(`---------`);
+
   const outputDirectory = "../src";
 
+  console.log(`Parsing goffi-spec.json file...`);
   const ffiSpecContent = await fs.readFile("./goffi-spec.json", "utf8");
   const ffiSpec = JSON.parse(ffiSpecContent) as FFISpec;
 
+  const numberOfModules = Object.keys(ffiSpec.packages).length;
+  console.log(`Found ${numberOfModules} modules. Generating code...`);
+
   // create packages directory, copy static files, generate error interface file
   await fs.mkdir(`${outputDirectory}/packages`, { recursive: true });
+
   await fs.copyFile(`static/lib.ts`, `${outputDirectory}/lib.ts`);
-  await generateErrorInterface(ffiSpec, `${outputDirectory}/error.ts`);
+  console.log(`Copied static file: ${outputDirectory}/lib.ts`);
   
-  // generate code for each declared packages
+  await generateErrorInterface(ffiSpec, `${outputDirectory}/error.ts`);
+  console.log(`Generated error interface file: ${outputDirectory}/error.ts`);
+  
+  // generate code for each declared package
   for (const packageName in ffiSpec.packages) {
     const schemaInput = new JSONSchemaInput(new FetchingJSONSchemaStore());
     const bottomExtraLines = [];
@@ -126,6 +137,8 @@ async function main() {
       `${outputDirectory}/packages/${packageName}.ts`,
       renderResult.lines.join("\n")
     );
+
+    console.log(`Generated module file: ${outputDirectory}/packages/${packageName}.ts`);
   }
 
   // generate index.ts file with package exports
@@ -138,6 +151,10 @@ async function main() {
     `${outputDirectory}/index.ts`,
     indexLines.join("\n")
   );
+  console.log(`Generated index file: ${outputDirectory}/index.ts`);
+
+  console.log(`---------`);
+  console.log(`SUCCESS`);
 }
 
 main();
