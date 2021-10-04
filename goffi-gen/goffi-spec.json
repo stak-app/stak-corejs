@@ -1,5 +1,5 @@
 {
-  "version": "0.5.0",
+  "version": "0.6.0",
   "packages": {
     "core": {
       "deploy": {
@@ -90,6 +90,53 @@
       }
     },
     "modules": {
+      "getModules": {
+        "in": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/GetModulesArgs",
+          "definitions": {
+            "GetModulesArgs": {
+              "properties": {},
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        },
+        "out": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/GetModulesResult",
+          "definitions": {
+            "GetModulesResult": {
+              "required": [
+                "items"
+              ],
+              "properties": {
+                "items": {
+                  "items": {
+                    "$schema": "http://json-schema.org/draft-04/schema#",
+                    "$ref": "#/definitions/Module"
+                  },
+                  "type": "array"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            },
+            "Module": {
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        }
+      },
       "update": {
         "in": {
           "$schema": "http://json-schema.org/draft-04/schema#",
