@@ -15,6 +15,13 @@ export interface LoginIn {
 export interface LoginOut {
 }
 
+export interface LogoutIn {
+    skipRevoke: boolean;
+}
+
+export interface LogoutOut {
+}
+
 export interface RunIn {
     workingDirectory: string;
 }
@@ -55,6 +62,22 @@ export class Convert {
 
     public static loginOutToJson(value: LoginOut): string {
         return JSON.stringify(uncast(value, r("LoginOut")), null, 2);
+    }
+
+    public static toLogoutIn(json: string): LogoutIn {
+        return cast(JSON.parse(json), r("LogoutIn"));
+    }
+
+    public static logoutInToJson(value: LogoutIn): string {
+        return JSON.stringify(uncast(value, r("LogoutIn")), null, 2);
+    }
+
+    public static toLogoutOut(json: string): LogoutOut {
+        return cast(JSON.parse(json), r("LogoutOut"));
+    }
+
+    public static logoutOutToJson(value: LogoutOut): string {
+        return JSON.stringify(uncast(value, r("LogoutOut")), null, 2);
     }
 
     public static toRunIn(json: string): RunIn {
@@ -216,6 +239,11 @@ const typeMap: any = {
     ], false),
     "LoginOut": o([
     ], false),
+    "LogoutIn": o([
+        { json: "skipRevoke", js: "skipRevoke", typ: true },
+    ], false),
+    "LogoutOut": o([
+    ], false),
     "RunIn": o([
         { json: "workingDirectory", js: "workingDirectory", typ: "" },
     ], false),
@@ -250,6 +278,18 @@ function login(args: LoginIn): Promise<LoginOut> {
   });
 }
 
+function logout(args: LogoutIn): Promise<LogoutOut> {
+  return new Promise((resolve, reject) => {
+    const argsJsonStr = Convert.logoutInToJson(args);
+    const resultJsonStr = callNativeFunction("core", "logout", argsJsonStr);
+    try {
+      resolve(Convert.toLogoutOut(resultJsonStr));
+    } catch {
+      reject(ErrorConvert.toStakError(resultJsonStr));
+    }
+  });
+}
+
 function run(args: RunIn): Promise<RunOut> {
   return new Promise((resolve, reject) => {
     const argsJsonStr = Convert.runInToJson(args);
@@ -265,5 +305,6 @@ function run(args: RunIn): Promise<RunOut> {
 export const core = {
   deploy,
   login,
+  logout,
   run,
 }

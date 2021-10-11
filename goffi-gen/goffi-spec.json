@@ -1,5 +1,5 @@
 {
-  "version": "0.6.0",
+  "version": "0.7.0",
   "packages": {
     "core": {
       "deploy": {
@@ -50,6 +50,37 @@
           "$ref": "#/definitions/LoginResponse",
           "definitions": {
             "LoginResponse": {
+              "properties": {},
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        }
+      },
+      "logout": {
+        "in": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/LogoutArgs",
+          "definitions": {
+            "LogoutArgs": {
+              "required": [
+                "skipRevoke"
+              ],
+              "properties": {
+                "skipRevoke": {
+                  "type": "boolean"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        },
+        "out": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/LogoutResponse",
+          "definitions": {
+            "LogoutResponse": {
               "properties": {},
               "additionalProperties": false,
               "type": "object"
