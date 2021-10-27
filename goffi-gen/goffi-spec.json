@@ -1,21 +1,14 @@
 {
-  "version": "0.7.0",
+  "version": "0.8.0",
   "packages": {
-    "core": {
-      "deploy": {
+    "auth": {
+      "info": {
         "in": {
           "$schema": "http://json-schema.org/draft-04/schema#",
-          "$ref": "#/definitions/DeployArgs",
+          "$ref": "#/definitions/AuthInfoRequest",
           "definitions": {
-            "DeployArgs": {
-              "required": [
-                "workingDirectory"
-              ],
-              "properties": {
-                "workingDirectory": {
-                  "type": "string"
-                }
-              },
+            "AuthInfoRequest": {
+              "properties": {},
               "additionalProperties": false,
               "type": "object"
             }
@@ -23,10 +16,25 @@
         },
         "out": {
           "$schema": "http://json-schema.org/draft-04/schema#",
-          "$ref": "#/definitions/DeployResult",
+          "$ref": "#/definitions/AuthInfoResponse",
           "definitions": {
-            "DeployResult": {
-              "properties": {},
+            "AuthInfoResponse": {
+              "required": [
+                "userId",
+                "userName",
+                "apiToken"
+              ],
+              "properties": {
+                "userId": {
+                  "type": "string"
+                },
+                "userName": {
+                  "type": "string"
+                },
+                "apiToken": {
+                  "type": "string"
+                }
+              },
               "additionalProperties": false,
               "type": "object"
             }
@@ -87,7 +95,9 @@
             }
           }
         }
-      },
+      }
+    },
+    "core": {
       "run": {
         "in": {
           "$schema": "http://json-schema.org/draft-04/schema#",
@@ -95,11 +105,19 @@
           "definitions": {
             "RunArgs": {
               "required": [
-                "workingDirectory"
+                "workingDirectory",
+                "command",
+                "stepNum"
               ],
               "properties": {
                 "workingDirectory": {
                   "type": "string"
+                },
+                "command": {
+                  "type": "string"
+                },
+                "stepNum": {
+                  "type": "integer"
                 }
               },
               "additionalProperties": false,
