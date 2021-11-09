@@ -14,7 +14,6 @@ export interface Module {
 }
 
 export interface UpdateIn {
-    sshPassphrase?: string;
 }
 
 export interface UpdateOut {
@@ -200,7 +199,6 @@ const typeMap: any = {
         { json: "name", js: "name", typ: "" },
     ], false),
     "UpdateIn": o([
-        { json: "sshPassphrase", js: "sshPassphrase", typ: u(undefined, "") },
     ], false),
     "UpdateOut": o([
         { json: "commitHash", js: "commitHash", typ: "" },
