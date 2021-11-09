@@ -12,6 +12,7 @@ export interface InfoOut {
 }
 
 export interface LoginIn {
+    token?: string;
 }
 
 export interface LoginOut {
@@ -217,6 +218,7 @@ const typeMap: any = {
         { json: "userName", js: "userName", typ: "" },
     ], false),
     "LoginIn": o([
+        { json: "token", js: "token", typ: u(undefined, "") },
     ], false),
     "LoginOut": o([
     ], false),

@@ -4,7 +4,6 @@
 
 export interface RunIn {
     command:          string;
-    stepNum:          number;
     workingDirectory: string;
 }
 
@@ -166,7 +165,6 @@ function r(name: string) {
 const typeMap: any = {
     "RunIn": o([
         { json: "command", js: "command", typ: "" },
-        { json: "stepNum", js: "stepNum", typ: 0 },
         { json: "workingDirectory", js: "workingDirectory", typ: "" },
     ], false),
     "RunOut": o([

@@ -3,6 +3,7 @@
 //
 
 export interface CloneRepositoryIn {
+    projectGroup:   string;
     projectName:    string;
     sshPassphrase?: string;
 }
@@ -19,7 +20,8 @@ export interface FetchDevEnvironmentOut {
 }
 
 export interface GetProjectIn {
-    name: string;
+    group: string;
+    name:  string;
 }
 
 export interface GetProjectOut {
@@ -98,7 +100,8 @@ export interface InitDevEnvironmentOut {
 }
 
 export interface RemoveProjectIn {
-    projectName: string;
+    projectGroup: string;
+    projectName:  string;
 }
 
 export interface RemoveProjectOut {
@@ -338,6 +341,7 @@ function r(name: string) {
 
 const typeMap: any = {
     "CloneRepositoryIn": o([
+        { json: "projectGroup", js: "projectGroup", typ: "" },
         { json: "projectName", js: "projectName", typ: "" },
         { json: "sshPassphrase", js: "sshPassphrase", typ: u(undefined, "") },
     ], false),
@@ -350,6 +354,7 @@ const typeMap: any = {
     "FetchDevEnvironmentOut": o([
     ], false),
     "GetProjectIn": o([
+        { json: "group", js: "group", typ: "" },
         { json: "name", js: "name", typ: "" },
     ], false),
     "GetProjectOut": o([
@@ -410,6 +415,7 @@ const typeMap: any = {
     "InitDevEnvironmentOut": o([
     ], false),
     "RemoveProjectIn": o([
+        { json: "projectGroup", js: "projectGroup", typ: "" },
         { json: "projectName", js: "projectName", typ: "" },
     ], false),
     "RemoveProjectOut": o([
