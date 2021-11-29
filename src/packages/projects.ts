@@ -3,7 +3,8 @@
 //
 
 export interface CloneRepositoryIn {
-    projectGroup:   string;
+    group:          string;
+    org:            string;
     projectName:    string;
     sshPassphrase?: string;
 }
@@ -20,8 +21,9 @@ export interface FetchDevEnvironmentOut {
 }
 
 export interface GetProjectIn {
-    group: string;
-    name:  string;
+    group:       string;
+    org:         string;
+    projectName: string;
 }
 
 export interface GetProjectOut {
@@ -61,6 +63,8 @@ export enum Type {
 }
 
 export interface GetProjectsIn {
+    all: boolean;
+    org: string;
 }
 
 export interface GetProjectsOut {
@@ -100,8 +104,9 @@ export interface InitDevEnvironmentOut {
 }
 
 export interface RemoveProjectIn {
-    projectGroup: string;
-    projectName:  string;
+    group:       string;
+    org:         string;
+    projectName: string;
 }
 
 export interface RemoveProjectOut {
@@ -341,7 +346,8 @@ function r(name: string) {
 
 const typeMap: any = {
     "CloneRepositoryIn": o([
-        { json: "projectGroup", js: "projectGroup", typ: "" },
+        { json: "group", js: "group", typ: "" },
+        { json: "org", js: "org", typ: "" },
         { json: "projectName", js: "projectName", typ: "" },
         { json: "sshPassphrase", js: "sshPassphrase", typ: u(undefined, "") },
     ], false),
@@ -355,7 +361,8 @@ const typeMap: any = {
     ], false),
     "GetProjectIn": o([
         { json: "group", js: "group", typ: "" },
-        { json: "name", js: "name", typ: "" },
+        { json: "org", js: "org", typ: "" },
+        { json: "projectName", js: "projectName", typ: "" },
     ], false),
     "GetProjectOut": o([
         { json: "item", js: "item", typ: r("GetProjectOutItem") },
@@ -383,6 +390,8 @@ const typeMap: any = {
         { json: "url", js: "url", typ: "" },
     ], false),
     "GetProjectsIn": o([
+        { json: "all", js: "all", typ: true },
+        { json: "org", js: "org", typ: "" },
     ], false),
     "GetProjectsOut": o([
         { json: "items", js: "items", typ: a(r("ItemElement")) },
@@ -415,7 +424,8 @@ const typeMap: any = {
     "InitDevEnvironmentOut": o([
     ], false),
     "RemoveProjectIn": o([
-        { json: "projectGroup", js: "projectGroup", typ: "" },
+        { json: "group", js: "group", typ: "" },
+        { json: "org", js: "org", typ: "" },
         { json: "projectName", js: "projectName", typ: "" },
     ], false),
     "RemoveProjectOut": o([
