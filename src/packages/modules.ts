@@ -10,7 +10,21 @@ export interface GetModulesOut {
 }
 
 export interface Module {
-    name: string;
+    args:        ModuleArg[];
+    commands:    ModuleCommand[];
+    description: string;
+    name:        string;
+}
+
+export interface ModuleArg {
+    allowedValues: string[];
+    default:       string;
+    name:          string;
+}
+
+export interface ModuleCommand {
+    description: string;
+    name:        string;
 }
 
 export interface UpdateIn {
@@ -196,6 +210,18 @@ const typeMap: any = {
         { json: "items", js: "items", typ: a(r("Module")) },
     ], false),
     "Module": o([
+        { json: "args", js: "args", typ: a(r("ModuleArg")) },
+        { json: "commands", js: "commands", typ: a(r("ModuleCommand")) },
+        { json: "description", js: "description", typ: "" },
+        { json: "name", js: "name", typ: "" },
+    ], false),
+    "ModuleArg": o([
+        { json: "allowedValues", js: "allowedValues", typ: a("") },
+        { json: "default", js: "default", typ: "" },
+        { json: "name", js: "name", typ: "" },
+    ], false),
+    "ModuleCommand": o([
+        { json: "description", js: "description", typ: "" },
         { json: "name", js: "name", typ: "" },
     ], false),
     "UpdateIn": o([

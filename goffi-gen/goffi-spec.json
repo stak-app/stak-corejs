@@ -1,5 +1,5 @@
 {
-  "version": "0.10.0",
+  "version": "0.11.0",
   "packages": {
     "auth": {
       "info": {
@@ -279,10 +279,69 @@
             },
             "Module": {
               "required": [
-                "name"
+                "name",
+                "description",
+                "args",
+                "commands"
               ],
               "properties": {
                 "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "args": {
+                  "items": {
+                    "$schema": "http://json-schema.org/draft-04/schema#",
+                    "$ref": "#/definitions/ModuleArg"
+                  },
+                  "type": "array"
+                },
+                "commands": {
+                  "items": {
+                    "$schema": "http://json-schema.org/draft-04/schema#",
+                    "$ref": "#/definitions/ModuleCommand"
+                  },
+                  "type": "array"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            },
+            "ModuleArg": {
+              "required": [
+                "name",
+                "default",
+                "allowedValues"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "default": {
+                  "type": "string"
+                },
+                "allowedValues": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            },
+            "ModuleCommand": {
+              "required": [
+                "name",
+                "description"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "description": {
                   "type": "string"
                 }
               },
@@ -336,14 +395,18 @@
           "definitions": {
             "CloneProjectArgs": {
               "required": [
-                "projectName",
-                "projectGroup"
+                "org",
+                "group",
+                "projectName"
               ],
               "properties": {
-                "projectName": {
+                "org": {
                   "type": "string"
                 },
-                "projectGroup": {
+                "group": {
+                  "type": "string"
+                },
+                "projectName": {
                   "type": "string"
                 },
                 "sshPassphrase": {
@@ -412,14 +475,18 @@
           "definitions": {
             "GetProjectArgs": {
               "required": [
+                "org",
                 "group",
-                "name"
+                "projectName"
               ],
               "properties": {
+                "org": {
+                  "type": "string"
+                },
                 "group": {
                   "type": "string"
                 },
-                "name": {
+                "projectName": {
                   "type": "string"
                 }
               },
@@ -554,7 +621,18 @@
           "$ref": "#/definitions/GetProjectsArgs",
           "definitions": {
             "GetProjectsArgs": {
-              "properties": {},
+              "required": [
+                "org",
+                "all"
+              ],
+              "properties": {
+                "org": {
+                  "type": "string"
+                },
+                "all": {
+                  "type": "boolean"
+                }
+              },
               "additionalProperties": false,
               "type": "object"
             }
@@ -721,11 +799,15 @@
           "definitions": {
             "RemoveProjectArgs": {
               "required": [
-                "projectGroup",
+                "org",
+                "group",
                 "projectName"
               ],
               "properties": {
-                "projectGroup": {
+                "org": {
+                  "type": "string"
+                },
+                "group": {
                   "type": "string"
                 },
                 "projectName": {
