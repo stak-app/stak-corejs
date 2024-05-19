@@ -6,4 +6,5 @@ export { auth } from "./packages/auth";
 export { config } from "./packages/config";
 export { core } from "./packages/core";
 export { modules } from "./packages/modules";
+export { organizations } from "./packages/organizations";
 export { projects } from "./packages/projects";

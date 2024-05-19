@@ -1,5 +1,5 @@
 {
-  "version": "0.11.1",
+  "version": "0.13.0",
   "packages": {
     "auth": {
       "info": {
@@ -279,69 +279,10 @@
             },
             "Module": {
               "required": [
-                "name",
-                "description",
-                "args",
-                "commands"
+                "name"
               ],
               "properties": {
                 "name": {
-                  "type": "string"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "args": {
-                  "items": {
-                    "$schema": "http://json-schema.org/draft-04/schema#",
-                    "$ref": "#/definitions/ModuleArg"
-                  },
-                  "type": "array"
-                },
-                "commands": {
-                  "items": {
-                    "$schema": "http://json-schema.org/draft-04/schema#",
-                    "$ref": "#/definitions/ModuleCommand"
-                  },
-                  "type": "array"
-                }
-              },
-              "additionalProperties": false,
-              "type": "object"
-            },
-            "ModuleArg": {
-              "required": [
-                "name",
-                "default",
-                "allowedValues"
-              ],
-              "properties": {
-                "name": {
-                  "type": "string"
-                },
-                "default": {
-                  "type": "string"
-                },
-                "allowedValues": {
-                  "items": {
-                    "type": "string"
-                  },
-                  "type": "array"
-                }
-              },
-              "additionalProperties": false,
-              "type": "object"
-            },
-            "ModuleCommand": {
-              "required": [
-                "name",
-                "description"
-              ],
-              "properties": {
-                "name": {
-                  "type": "string"
-                },
-                "description": {
                   "type": "string"
                 }
               },
@@ -380,6 +321,125 @@
                   "type": "boolean"
                 }
               },
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "organizations": {
+      "getCurrentOrganization": {
+        "in": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/OrgsCurrentArgs",
+          "definitions": {
+            "OrgsCurrentArgs": {
+              "properties": {},
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        },
+        "out": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/OrgsCurrentResponse",
+          "definitions": {
+            "OrgsCurrentResponse": {
+              "required": [
+                "orgName"
+              ],
+              "properties": {
+                "orgName": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        }
+      },
+      "getOrganizations": {
+        "in": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/OrgsLsArgs",
+          "definitions": {
+            "OrgsLsArgs": {
+              "properties": {},
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        },
+        "out": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/OrgsLsResponse",
+          "definitions": {
+            "OrgInfo": {
+              "required": [
+                "orgId",
+                "orgName",
+                "orgDisplayName"
+              ],
+              "properties": {
+                "orgId": {
+                  "type": "string"
+                },
+                "orgName": {
+                  "type": "string"
+                },
+                "orgDisplayName": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            },
+            "OrgsLsResponse": {
+              "required": [
+                "orgs"
+              ],
+              "properties": {
+                "orgs": {
+                  "items": {
+                    "$schema": "http://json-schema.org/draft-04/schema#",
+                    "$ref": "#/definitions/OrgInfo"
+                  },
+                  "type": "array"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        }
+      },
+      "switchOrganization": {
+        "in": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/OrgsSwitchArgs",
+          "definitions": {
+            "OrgsSwitchArgs": {
+              "required": [
+                "orgName"
+              ],
+              "properties": {
+                "orgName": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "type": "object"
+            }
+          }
+        },
+        "out": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/OrgsSwitchResponse",
+          "definitions": {
+            "OrgsSwitchResponse": {
+              "properties": {},
               "additionalProperties": false,
               "type": "object"
             }
